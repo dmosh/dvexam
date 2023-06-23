@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Box Plot: pH Levels</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      /* Add some basic styling to the plot */
+      .chartContainer {
+        position: relative;
+        width: 100%;
+      }
+
+      .tooltip {
+        position: absolute;
+        opacity: 0;
+        background-color: white;
+        padding: 10px;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        border: 1px solid gray;
+      }
+      .box {
+        fill: #69b3a2;
+        stroke: black;
+        opacity: 0.7;
+      }
+
+      .median {
+        stroke: black;
+        stroke-width: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <label>Select District</label>
+    <select id="districtSelect" onchange="filterData()"></select>
+    <div id="boxPlot" class="chartContainer"></div>
+
+    <script>
+      // Function to filter data by selected district
+      function filterData() {
+        const selectedDistrict = districtSelect.value;
+        const filteredData = data.filter((d) => d.District === selectedDistrict);
+        updatePlot(filteredData);
+      }
+
+      // Function to update the plot based on filtered data
+      function updatePlot(data) {
+        // Compute the median, quartiles, and outliers
+        const statistics = d3.groups(data, (d) => d.village).map(([village, values]) => {
+          values.sort((a, b) => a.pH - b.pH);
+          const q1 = d3.quantile(values.map((d) => +d.pH), 0.25);
+          const median = d3.quantile(values.map((d) => +d.pH), 0.5);
+          const q3 = d3.quantile(values.map((d) => +d.pH), 0.75);
+          const iqr = q3 - q1;
+          const lowerWhisker = q1 - 1.5 * iqr;
+          const upperWhisker = q3 + 1.5 * iqr;
+          const outliers = values.filter((d) => +d.pH < lowerWhisker || +d.pH > upperWhisker);
+          return { village, values, q1, median, q3, outliers };
+        });
+
+        // Remove any existing chart
+        d3.select("#boxPlot").select("svg").remove();
+
+        // Calculate the height based on the number of data points
+        const height = data.length * 20;
+
+        // Define the margin and dimensions of the chart
+        const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+        const width = 600 - margin.left - margin.right;
+
+        // Create the SVG container for the chart
+        const svg = d3
+          .select("#boxPlot")
+          .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // ... Rest of the code
+
+        // Update the chartContainer and svg elements' height
+        const chartContainer = document.querySelector("#boxPlot");
+        chartContainer.style.height = `${height + margin.top + margin.bottom}px`;
+        svg.attr("height", height + margin.top + margin.bottom);
+
+        // Create the SVG container for the legend
+        const legendWidth = 100;
+        const legendHeight = 100;
+        const legend = d3
+          .select("#boxPlot")
+          .append("svg")
+          .attr("width", legendWidth)
+          .attr("height", legendHeight)
+          .style("position", "absolute")
+          .style("top", "0")
+          .style("left", `${width + margin.left + margin.right}px`);
+
+        // Add legend items
+        const legendItems = [
+          { color: "#69b3a2", label: "Box" },
+          { color: "black", label: "Median" },
+          { color: "red", label: "Outlier" },
+        ];
+
+        const legendGroup = legend.append("g").attr("transform", `translate(10, 10)`);
+
+        legendGroup
+          .selectAll("circle")
+          .data(legendItems)
+          .enter()
+          .append("circle")
+          .attr("cx", 10)
+          .attr("cy", (d, i) => 20 + i * 20)
+          .attr("r", 4)
+          .attr("fill", (d) => d.color);
+
+        legendGroup
+          .selectAll("text")
+          .data(legendItems)
+          .enter()
+          .append("text")
+          .attr("x", 20)
+          .attr("y", (d, i) => 22 + i * 20)
+          .text((d) => d.label)
+          .style("font-size", "12px")
+          .style("alignment-baseline", "middle");
+
+        // Set up scales for the plot
+        const x = d3.scaleBand().range([0, width]).domain(statistics.map((d) => d.village)).padding(0.5);
+        const y = d3.scaleLinear().range([height, 0]).domain([3, 10]);
+
+        // Draw the box plots
+        svg
+          .selectAll(".box")
+          .data(statistics)
+          .enter()
+          .append("g")
+          .attr("transform", (d) => `translate(${x(d.village)},0)`)
+          .each(function (d) {
+            const box = d3.select(this);
+
+            // Draw the box
+            box.append("rect")
+              .attr("class", "box")
+              .attr("x", 0)
+              .attr("y", y(d.q3))
+              .attr("width", x.bandwidth())
+              .attr("height", y(d.q1) - y(d.q3))
+              .attr("fill", "#69b3a2")
+              .transition() // Add transition
+              .duration(500)
+              .attr("y", y(d.q3))
+              .attr("height", y(d.q1) - y(d.q3));
+
+            // Draw the median line
+            box.append("line")
+              .attr("class", "median")
+              .attr("x1", 0)
+              .attr("y1", y(d.median))
+              .attr("x2", x.bandwidth())
+              .attr("y2", y(d.median))
+              .attr("stroke", "black")
+              .attr("stroke-width", 2)
+              .transition() // Add transition
+              .duration(500)
+              .attr("y1", y(d.median))
+              .attr("y2", y(d.median));
+
+            // Draw the outliers
+            box.selectAll(".outlier")
+              .data(d.outliers)
+              .enter()
+              .append("circle")
+              .attr("class", "outlier")
+              .attr("cx", x.bandwidth() / 2)
+              .attr("cy", (di) => y(+di.pH))
+              .attr("r", 4)
+              .attr("fill", "red")
+              .on("mouseover", handleMouseOver)
+              .on("mouseout", handleMouseOut);
+          });
+
+        // Add axes
+        svg.append("g")
+          .attr("transform", `translate(0,${height})`)
+          .call(d3.axisBottom(x))
+          .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-90)");
+        svg.append("g").call(d3.axisLeft(y));
+
+        // Add labels
+        svg
+          .append("text")
+          .attr("text-anchor", "end")
+          .attr("x", width)
+          .attr("y", height + margin.top + 20)
+          .text("Village");
+
+        svg
+          .append("text")
+          .attr("text-anchor", "end")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -margin.left + 10)
+          .attr("x", -margin.top - height / 2)
+          .text("pH Levels");
+
+        // Add title
+        svg
+          .append("text")
+          .attr("class", "title")
+          .attr("text-anchor", "middle")
+          .attr("x", width / 2)
+          .attr("y", -margin.top / 2)
+          .text("Box Plot: pH Levels");
+
+        // Function to handle mouseover event
+        function handleMouseOver(d, i) {
+          // Show tooltip
+          tooltip.style("opacity", 1);
+
+          // Position tooltip relative to mouse cursor
+          const [x, y] = d3.pointer(event);
+          tooltip.style("left", `${x}px`).style("top", `${y}px`);
+
+          // Set tooltip text to pH value
+          tooltip.html(d.pH);
+        }
+
+        // Function to handle mouseout event
+        function handleMouseOut() {
+          // Hide tooltip
+          tooltip.style("opacity", 0);
+        }
+      }
+
+      // Load data from CSV file
+      d3.csv("../data/data.csv").then((data) => {
+        // Store the data globally for access in other functions
+        window.data = data;
+
+        // Extract unique districts
+        const districts = Array.from(new Set(data.map((d) => d.District)));
+
+        // Populate the select box with districts
+        const districtSelect = d3.select("#districtSelect");
+        districtSelect
+          .selectAll("option")
+          .data(districts)
+          .enter()
+          .append("option")
+          .text((d) => d);
+
+        // Initial plot using the first district
+        const initialDistrict = districts[0];
+        const initialData = data.filter((d) => d.District === initialDistrict);
+        updatePlot(initialData);
+      });
+    </script>
+
+  </body>
+</html>

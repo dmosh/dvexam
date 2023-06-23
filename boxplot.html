@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    <style>
+      /* Add some basic styling to the plot */
+      .box {
+        fill: #69b3a2;
+        stroke: black;
+        opacity: 0.7;
+      }
+
+      .median {
+        stroke: black;
+        stroke-width: 2px;
+      }
+    </style>
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+  </div>
+
+   <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">AdminLTE 3</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <!-- SidebarSearch Form -->
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="./index.html" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bar Chart</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index2.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tree Chart</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index3.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Coordinate Point Map</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="treemap.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tree Map</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="scatter.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Scatter Plot</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="boxplot.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Box Plot</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/radar.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Radar Chart</p>
+                </a>
+              </li>
+            </ul>
+          </li>         
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!--<div class="col-xs-12 col-sm-6 col-lg-12">-->
+            <div class="col-sm-4">
+              <label>Select District:</label>
+              <select id="districtSelect" onchange="filterData()"></select>
+            </div>
+            <div class="col-sm-4">
+              
+            </div>
+            <div class="col-sm-4"></div>
+          <!--</div> -->
+        </div>                   
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-lg-12">
+            <svg id="boxPlot"></svg>
+          </div>
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.2.0
+    </div>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
+<script>
+      // Function to filter data by selected district
+      function filterData() {
+        const selectedDistrict = districtSelect.value;
+        const filteredData = data.filter((d) => d.District === selectedDistrict);
+        updatePlot(filteredData);
+      }
+
+      // Function to update the plot based on filtered data
+      function updatePlot(data) {
+        // Compute the median, quartiles, and outliers
+        const statistics = d3.groups(data, (d) => d.village).map(([village, values]) => {
+          values.sort((a, b) => a.pH - b.pH);
+          const q1 = d3.quantile(values.map((d) => +d.pH), 0.25);
+          const median = d3.quantile(values.map((d) => +d.pH), 0.5);
+          const q3 = d3.quantile(values.map((d) => +d.pH), 0.75);
+          const iqr = q3 - q1;
+          const lowerWhisker = q1 - 1.5 * iqr;
+          const upperWhisker = q3 + 1.5 * iqr;
+          const outliers = values.filter((d) => +d.pH < lowerWhisker || +d.pH > upperWhisker);
+          return { village, values, q1, median, q3, outliers };
+        });
+
+        // Set up dimensions and margins for the plot
+        const margin = { top: 20, right: 60, bottom: 30, left: 60 };
+        const width = 800 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
+        const legendWidth = 200;
+        const legendHeight = 100;
+
+        // Remove existing SVG elements
+        d3.select("#boxPlot").selectAll("*").remove();
+
+        // Create the SVG container for the plot
+        const svg = d3
+          .select("#boxPlot")
+          .attr("width", width + margin.left + margin.right + legendWidth)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Create the SVG container for the legend
+        const legend = d3
+          .select("#boxPlot")
+          .append("svg")
+          .attr("width", legendWidth)
+          .attr("height", legendHeight)
+          .attr("x", width + margin.left + margin.right)
+          .attr("y", margin.top);
+
+        // Add legend items
+        const legendItems = [
+          { color: "#69b3a2", label: "Box" },
+          { color: "black", label: "Median" },
+          { color: "red", label: "Outlier" },
+        ];
+
+        const legendGroup = legend.append("g").attr("transform", `translate(10, 10)`);
+
+        legendGroup
+          .selectAll("circle")
+          .data(legendItems)
+          .enter()
+          .append("circle")
+          .attr("cx", 10)
+          .attr("cy", (d, i) => 20 + i * 20)
+          .attr("r", 4)
+          .attr("fill", (d) => d.color);
+
+        legendGroup
+          .selectAll("text")
+          .data(legendItems)
+          .enter()
+          .append("text")
+          .attr("x", 20)
+          .attr("y", (d, i) => 22 + i * 20)
+          .text((d) => d.label)
+          .style("font-size", "12px")
+          .style("alignment-baseline", "middle");
+
+        // Set up scales for the plot
+        const x = d3.scaleBand().range([0, width]).domain(statistics.map((d) => d.village)).padding(0.5);
+        const y = d3.scaleLinear().range([height, 0]).domain([3, 10]);
+
+        // Draw the box plots
+        svg
+          .selectAll(".box")
+          .data(statistics)
+          .enter()
+          .append("g")
+          .attr("transform", (d) => `translate(${x(d.village)},0)`)
+          .each(function (d) {
+            const box = d3.select(this);
+
+            // Draw the box
+            box.append("rect")
+              .attr("class", "box")
+              .attr("x", 0)
+              .attr("y", y(d.q3))
+              .attr("width", x.bandwidth())
+              .attr("height", y(d.q1) - y(d.q3))
+              .attr("fill", "#69b3a2")
+              .transition() // Add transition
+              .duration(500)
+              .attr("y", y(d.q3))
+              .attr("height", y(d.q1) - y(d.q3));
+
+            // Draw the median line
+            box.append("line")
+              .attr("class", "median")
+              .attr("x1", 0)
+              .attr("y1", y(d.median))
+              .attr("x2", x.bandwidth())
+              .attr("y2", y(d.median))
+              .attr("stroke", "black")
+              .attr("stroke-width", 2)
+              .transition() // Add transition
+              .duration(500)
+              .attr("y1", y(d.median))
+              .attr("y2", y(d.median));
+
+            // Draw the outliers
+            box.selectAll(".outlier")
+              .data(d.outliers)
+              .enter()
+              .append("circle")
+              .attr("class", "outlier")
+              .attr("cx", x.bandwidth() / 2)
+              .attr("cy", (di) => y(+di.pH))
+              .attr("r", 4)
+              .attr("fill", "red")
+              .on("mouseover", handleMouseOver)
+              .on("mouseout", handleMouseOut);
+          });
+
+        // Add axes
+        svg.append("g")
+          .attr("transform", `translate(0,${height})`)
+          .call(d3.axisBottom(x))
+          .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-90)");
+        svg.append("g").call(d3.axisLeft(y));
+
+        // Add labels
+        svg
+          .append("text")
+          .attr("text-anchor", "end")
+          .attr("x", width)
+          .attr("y", height + margin.top + 20)
+          .text("Village");
+
+        svg
+          .append("text")
+          .attr("text-anchor", "end")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -margin.left + 10)
+          .attr("x", -margin.top - height / 2)
+          .text("pH Levels");
+
+        // Add title
+        svg
+          .append("text")
+          .attr("class", "title")
+          .attr("text-anchor", "middle")
+          .attr("x", width / 2)
+          .attr("y", -margin.top / 2)
+          .text("Box Plot: pH Levels");
+
+        // Function to handle mouseover event
+        function handleMouseOver(d, i) {
+          // Show tooltip
+          tooltip.style("opacity", 1);
+
+          // Position tooltip relative to mouse cursor
+          const [x, y] = d3.pointer(event);
+          tooltip.style("left", `${x}px`).style("top", `${y}px`);
+
+          // Set tooltip text to pH value
+          tooltip.html(d.pH);
+        }
+
+        // Function to handle mouseout event
+        function handleMouseOut() {
+          // Hide tooltip
+          tooltip.style("opacity", 0);
+        }
+      }
+
+      // Load data from CSV file
+      d3.csv("data/data.csv").then((data) => {
+        // Store the data globally for access in other functions
+        window.data = data;
+
+        // Extract unique districts
+        const districts = Array.from(new Set(data.map((d) => d.District)));
+
+        // Populate the select box with districts
+        const districtSelect = d3.select("#districtSelect");
+        districtSelect
+          .selectAll("option")
+          .data(districts)
+          .enter()
+          .append("option")
+          .text((d) => d);
+
+        // Initial plot using the first district
+        const initialDistrict = districts[0];
+        const initialData = data.filter((d) => d.District === initialDistrict);
+        updatePlot(initialData);
+      });
+    </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+</body>
+</html>
